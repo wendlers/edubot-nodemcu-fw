@@ -1,0 +1,2 @@
+require("sta")
+require("telnetd")
