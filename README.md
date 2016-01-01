@@ -1,3 +1,3 @@
 # edubot-nodemcu-firmware
 
-THe firmware for the NodeMCU based EduBot.
+The firmware for the NodeMCU based EduBot.
