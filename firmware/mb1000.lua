@@ -10,9 +10,15 @@ function rf.init(pin_en, pin_pw)
 	gpio.write(pin_en, gpio.LOW)
 
 	rf.current_dist = 0
+	rf.prev_obstacle = false
+	rf.obstacle_cb = nil
 
 	tmr.alarm(0, 100, 1, rf.range_internal)
 
+end
+
+function rf.set_obstacle_cb(cb_func)
+	rf.obstacle_cb = cb_func 
 end
 
 function rf.range_internal()
@@ -35,6 +41,13 @@ function rf.range_internal()
 
 	rf.current_dist = t2 - t1
 
+	obstacle = rf.sees_obstacle() 
+
+	if obstacle ~= rf.prev_obstacle and rf.obstacle_cb then
+		rf.obstacle_cb(obstacle)
+		rf.prev_obstacle = obstacle
+	end
+
 end
 
 function rf.range()
@@ -43,9 +56,14 @@ end
 
 function rf.sees_obstacle()
 
-	if rf.range() < 3000 then
-		return true
+	if rf.range() < 2000 then
+		-- obstacle close 
+		return 2 
+	elseif rf.range() < 6000 then
+		-- obstacle far away
+		return 1 
 	end
 
-	return false
+	-- no obstacle
+	return 0 
 end

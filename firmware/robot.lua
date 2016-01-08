@@ -1,10 +1,12 @@
 require("gear")
+require("mb1000")
 
 robot = {}
 
 function robot.init()
 
 	gear.init()
+	rf.init()
 end
 
 function robot.drive(speed_a, speed_b)
@@ -69,13 +71,15 @@ function robot.turn_right(speed)
 end
 
 function robot.stop()
-
 	return robot.drive(0, 0)
 end
 
 function robot.sees_obstacle()
+	return rf.sees_obstacle() 
+end
 
-	return false
+function robot.set_obstacle_cb(cb_func)
+	rf.set_obstacle_cb(cb_func)
 end
 
 robot.init()
