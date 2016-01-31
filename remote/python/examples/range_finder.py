@@ -4,7 +4,7 @@ import time
 
 __author__ = 'stefan'
 
-robot = Robot()
+robot = Robot("ESP_D67C3F")
 
 while True:
     o = robot.sees_obstacle()

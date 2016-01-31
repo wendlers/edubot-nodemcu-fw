@@ -9,7 +9,7 @@ def robot_ctrl():
 
     robot_prev_speed = 60
     robot_prev_state = None
-    robot = Robot()
+    robot = Robot("192.168.1.122")
 
     robot_images = {
         robot.stop: pygame.image.load("assets/robot_aoff_boff.png"),

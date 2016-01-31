@@ -1,5 +1,4 @@
 require("gear")
-require("mb1000")
 
 robot = {}
 
