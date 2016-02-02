@@ -1,3 +1,3 @@
 wifi.setmode(wifi.STATION)
-wifi.sta.config("SSID", "passwd")
+wifi.sta.config("MosEisleySpaceport", "supersonic")
 print("Connected to AP")

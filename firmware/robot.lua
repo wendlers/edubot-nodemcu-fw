@@ -1,4 +1,5 @@
 require("gear")
+-- require("hcsr04")
 
 robot = {}
 
