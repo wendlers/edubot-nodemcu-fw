@@ -4,7 +4,7 @@ import time
 
 __author__ = 'stefan'
 
-robot = Robot("ESP_D67C3F")
+robot = Robot("ESP_116285")
 
 i = 0
 
