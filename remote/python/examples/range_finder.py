@@ -10,6 +10,7 @@ i = 0
 
 while True:
     o = robot.sees_obstacle()
-    print("%04d   Robot sees obstacle: %s" % (i, o))
-    time.sleep(0.1)
+    r = robot.dist()
+    print("%04d   Robot sees obstacle: %s (%f m away)" % (i, o, r))
+    # time.sleep(0.1)
     i += 1

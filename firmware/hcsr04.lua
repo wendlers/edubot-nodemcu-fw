@@ -7,77 +7,41 @@ function rf.init(pin_trig, pin_echo)
 
 	gpio.mode(rf.trig, gpio.OUTPUT)
 	gpio.mode(rf.echo, gpio.INT)
-
-	rf.t1 = 0
-	rf.t2 = 0
-	rf.current_dist = 0
-	rf.prev_obstacle = false
-	rf.obstacle_cb = nil
 end
 
-function rf.start()
-	tmr.alarm(0, 500, tmr.ALARM_SEMI, rf.range_internal)
-end
+function rf.range()
 
-function rf.set_obstacle_cb(cb_func)
+	local t1 = 0
+	local t2 = 0
+	local tout1 = 500 
+	local tout2 = 1000 
 
-	rf.obstacle_cb = cb_func 
-end
-
-function rf.trigger(level)
-
-	tmr.wdclr()
-
-	if level == 1 then
-		rf.t1 = tmr.now()
-
-		gpio.trig(rf.echo, "down")
-
-		-- It looks like we are not able to detect very short pulses with the trigger
-		-- thus, we check here if pulse went already down, and if so, restart the timer.
-		tmr.delay(1)
-
-		if gpio.read(rf.echo) == 0 then
-			rf.current_dist = 0
-			tmr.start(0)
-		end
-
-	else
-		rf.t2 = tmr.now()
-
-		if (rf.t2 - rf.t1) >= 0 then
-			rf.current_dist = (rf.t2 - rf.t1) / 5800
-
-			obstacle = rf.sees_obstacle() 
-
-			--[[
-			-- Execute callback (if registered)
-			if obstacle ~= rf.prev_obstacle and rf.obstacle_cb then
-				rf.obstacle_cb(obstacle)
-				rf.prev_obstacle = obstacle
-			end
-			]]--
-
-		end
-		tmr.start(0)
-	end
-end
-
-function rf.range_internal()
-
-	tmr.wdclr()
-
-	gpio.trig(rf.echo, "up", rf.trigger)
-
-	-- Charge the range finder ...
 	gpio.write(rf.trig, gpio.HIGH)
 	tmr.delay(10)
 	gpio.write(rf.trig, gpio.LOW)
 
-end
+	while gpio.read(rf.echo) == gpio.LOW and tout1 > 0 do
+		tmr.wdclr()
+		tout1 = tout1 - 1
+		if tout1 == 0 then
+			return 2.5 
+		end
+	end
 
-function rf.range()
-	return rf.current_dist
+	t1 = tmr.now()
+
+	while gpio.read(rf.echo) == gpio.HIGH do
+		tmr.wdclr()
+		tout2 = tout2 - 1
+		if tout2 == 0 then
+			return 2.5 
+		end
+	end
+
+	t2 = tmr.now()
+
+	return (t2 - t1) / 5800
+
 end
 
 function rf.sees_obstacle()

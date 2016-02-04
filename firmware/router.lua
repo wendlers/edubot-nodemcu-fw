@@ -4,13 +4,25 @@ print("Started router")
 
 router = {}
 
+router.count = 0
+
 function router.route(cmd)
 
 	local status = "ERROR"
 
+	router.count = router.count + 1
+
 	if string.sub(cmd, 1, 1) == "d" then
 		-- route to drive ctrl
 		status = router.route_drive(string.sub(cmd, 2))			
+
+	elseif string.sub(cmd, 1, 1) == "r" then
+		local dist = robot.range()
+
+		if dist > -1 then
+			status = tostring(dist)
+		end
+
 	elseif string.sub(cmd, 1, 1) == "o" then
 		-- check for obstacle
 		if robot.sees_obstacle() == 1 then

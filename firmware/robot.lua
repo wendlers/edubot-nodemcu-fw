@@ -82,4 +82,8 @@ function robot.set_obstacle_cb(cb_func)
 	rf.set_obstacle_cb(cb_func)
 end
 
+function robot.range()
+	return rf.range()
+end
+
 robot.init()
