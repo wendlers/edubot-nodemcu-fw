@@ -1,3 +1,7 @@
+-- EDU Bot NodeMCU Lua firmware, 2016 sw@kaltpost.de
+-- MIT License (MIT)
+-- See LICENSE file for details
+
 gear = {}
 
 function gear.init(pin_pwm1, pin_dir1, pin_pwm2, pin_dir2)

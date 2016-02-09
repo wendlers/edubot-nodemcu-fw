@@ -1,3 +1,7 @@
+-- EDU Bot NodeMCU Lua firmware, 2016 sw@kaltpost.de
+-- MIT License (MIT)
+-- See LICENSE file for details
+
 require("robot")
 
 print("Started scratchd")

@@ -1,3 +1,7 @@
+-- EDU Bot NodeMCU Lua firmware, 2016 sw@kaltpost.de
+-- MIT License (MIT)
+-- See LICENSE file for details
+
 rf = {}
 
 function rf.init(pin_en, pin_pw)
