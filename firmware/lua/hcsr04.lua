@@ -13,10 +13,12 @@ function rf.init(pin_trig, pin_echo)
     gpio.mode(rf.echo, gpio.INT)
     gpio.write(rf.trig, gpio.LOW)
 
-    rf.t1 = 0
-    rf.t2 = 0
+    rf.t1 = -1 
+    rf.t2 = -1 
 
+	rf.last = tmr.now() 
     rf.running = false
+
     rf.current = 0
 	rf.prev_obstacle = 0
 	rf.obstacle_cb = nil
@@ -25,11 +27,24 @@ function rf.init(pin_trig, pin_echo)
 
 end
 
+function rf.observer()
+
+	if tmr.now() - rf.last > 200000 then
+		tmr.unregister(0)
+		tmr.unregister(1)
+		rf.running = false
+		print("rf stopped")
+	end
+end
+
 function rf.start()
 
+
     if not rf.running then
-        tmr.alarm(0, 500, tmr.ALARM_SEMI, rf.range_internal)
+        tmr.alarm(0, 500, tmr.ALARM_AUTO, rf.range_internal)
+        tmr.alarm(1, 1000, tmr.ALARM_AUTO, rf.observer)
         rf.running = true
+		print("rf started")
     end
 
 end
@@ -65,6 +80,8 @@ end
 function rf.range()
 
     rf.start()
+	rf.last = tmr.now()
+	-- rf.range_internal()
     return rf.current
 
 end
@@ -73,18 +90,16 @@ function rf.range_internal()
 
     tmr.wdclr()
 
-    if gpio.read(rf.trig) == gpio.LOW and gpio.read(rf.echo) == gpio.LOW then
-
+    -- if gpio.read(rf.trig) == gpio.LOW and gpio.read(rf.echo) == gpio.LOW then
+	if rf.t1 ~= 0 and rf.t2 ~= 0 then
         gpio.write(rf.trig, gpio.HIGH)
+        tmr.delay(50)
+        gpio.write(rf.trig, gpio.LOW)
 
         rf.t1 = 0
         rf.t2 = 0
-        tmr.delay(50)
-
-        gpio.write(rf.trig, gpio.LOW)
     end
 
-    tmr.start(0)
 end
 
 function rf.sees_obstacle()
