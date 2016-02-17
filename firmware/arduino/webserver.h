@@ -1,5 +1,4 @@
-#ifndef __WEBSERVER_H__
-#define __WEBSERVER_H__
+#pragma once
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
@@ -29,4 +28,3 @@ private:
     static void handleNotFound();
 };
 
-#endif

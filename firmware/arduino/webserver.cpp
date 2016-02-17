@@ -1,7 +1,9 @@
 #include "webserver.h"
 #include "gear.h"
+#include "range.h"
 
 extern Gear gear;
+extern Range range;
 
 WebServer WebServer::_instance;
 
@@ -27,7 +29,7 @@ void WebServer::handleRoot()
 
 void WebServer::handleDrive()
 {
-	Serial.print("handleDrive\n");
+	// Serial.print("handleDrive\n");
 
 	if(instance().hasArg("a")) {
 		int s = instance().arg("a").toInt();
@@ -55,12 +57,10 @@ void WebServer::handleDrive()
 
 void WebServer::handleRange()
 {
-	int d = 0;
-
-	Serial.print("handleRange\n");
+	// Serial.print("handleRange\n");
 
 	String message = "{\"d\": ";
-	message += d;
+	message += range.getDistance();
 	message += "}";
 
     instance().send(200, "text/json", message);
@@ -68,7 +68,7 @@ void WebServer::handleRange()
 
 void WebServer::handleNotFound()
 {
-	Serial.print("handleNotFound\n");
+	// Serial.print("handleNotFound\n");
 
     String message = "File Not Found\n\n";
     message += "URI: ";

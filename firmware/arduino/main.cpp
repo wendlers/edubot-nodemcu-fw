@@ -3,6 +3,7 @@
 
 #include "webserver.h"
 #include "gear.h"
+#include "range.h"
 
 const char* ssid = _SSID_;
 const char* password = _WIFI_PASSWORD_;
@@ -11,6 +12,7 @@ MDNSResponder mdns;
 
 WebServer &server = WebServer::instance();
 Gear gear(5, 0, 4, 2);
+Range range(14, 12);
 
 void setup(void) {
 
@@ -39,6 +41,8 @@ void setup(void) {
 }
 
 void loop(void) {
+
     server.handleClient();
+	range.update();
 }
 

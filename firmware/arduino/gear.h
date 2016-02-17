@@ -1,5 +1,4 @@
-#ifndef __GEAR_H__
-#define __GEAR_H__
+#pragma once 
 
 class Gear 
 {
@@ -17,14 +16,13 @@ public:
 
 private:
 
-	struct motor {
+	struct Motor {
 		int pinPwm;
 		int pinDir;
 		int speed;
 		int dir;	
 	};
 
-	motor motors[2];
+	Motor motors[2];
 };
 
-#endif
