@@ -1,9 +1,11 @@
 #include "webserver.h"
 #include "gear.h"
 #include "range.h"
+#include "Adafruit_NeoPixel.h"
 
 extern Gear gear;
 extern Range range;
+extern Adafruit_NeoPixel pixels; 
 
 WebServer WebServer::_instance;
 
@@ -12,12 +14,13 @@ WebServer::WebServer() : ESP8266WebServer()
     on("/", WebServer::handleRoot);
     on("/drive", WebServer::handleDrive);
     on("/range", WebServer::handleRange);
+    on("/pixels", WebServer::handlePixels);
     onNotFound(WebServer::handleNotFound);
 }
 
 void WebServer::handleRoot()
 {
-	Serial.print("handleRoot\n");
+	// Serial.print("handleRoot\n");
 
     instance().send(200, "text/html", 
 		"<html><head><title>EduBot NodeMCU</title><head><body>" \
@@ -26,6 +29,38 @@ void WebServer::handleRoot()
 		"<p><a href=\"range\">Range finder</a></p>" \
 		"</body></html>");
 }
+
+void WebServer::handlePixels()
+{
+	// Serial.print("handlePixel\n");
+
+	int p = 0;
+	int r = 0;
+	int g = 0;
+	int b = 0;
+
+	if(instance().hasArg("p")) {
+		p = instance().arg("p").toInt();
+	}
+
+	if(instance().hasArg("r")) {
+		r = instance().arg("r").toInt();
+	}
+
+	if(instance().hasArg("g")) {
+		g = instance().arg("g").toInt();
+	}
+
+	if(instance().hasArg("b")) {
+		b = instance().arg("b").toInt();
+	}
+
+    pixels.setPixelColor(p, pixels.Color(r, g, b)); 
+    pixels.show(); 
+
+    instance().send(200, "text/json", "{}");
+}
+
 
 void WebServer::handleDrive()
 {

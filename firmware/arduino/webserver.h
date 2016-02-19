@@ -25,6 +25,7 @@ private:
     static void handleRoot();
 	static void handleDrive();
 	static void handleRange();
+	static void handlePixels();
     static void handleNotFound();
 };
 

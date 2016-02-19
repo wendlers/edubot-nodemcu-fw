@@ -4,6 +4,7 @@
 #include "webserver.h"
 #include "gear.h"
 #include "range.h"
+#include "Adafruit_NeoPixel.h"
 
 const char* ssid = _SSID_;
 const char* password = _WIFI_PASSWORD_;
@@ -13,6 +14,8 @@ MDNSResponder mdns;
 WebServer &server = WebServer::instance();
 Gear gear(5, 0, 4, 2);
 Range range(14, 12);
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(8, 10, NEO_GRB + NEO_KHZ800);
+
 
 void setup(void) {
 
@@ -32,12 +35,14 @@ void setup(void) {
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
-    if (mdns.begin("esp8266", WiFi.localIP())) {
+    if (mdns.begin(_MDNS_NAME_, WiFi.localIP())) {
         Serial.println("MDNS responder started");
     }
 
     server.begin();
     Serial.println("HTTP server started");
+
+	pixels.begin();
 }
 
 void loop(void) {
