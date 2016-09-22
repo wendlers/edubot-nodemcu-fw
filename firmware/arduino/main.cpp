@@ -8,8 +8,8 @@
 #include "range.h"
 #include "Adafruit_NeoPixel.h"
 
-// const char* ssid = _SSID_;
-// const char* password = _WIFI_PASSWORD_;
+const char* ssid = _SSID_;
+const char* password = _WIFI_PASSWORD_;
 
 MDNSResponder mdns;
 
@@ -24,7 +24,7 @@ void setup(void) {
 
     Serial.begin(115200);
 
-	/*
+#if 0
     WiFi.begin(ssid, password);
     Serial.println("");
 
@@ -39,10 +39,12 @@ void setup(void) {
     Serial.println(ssid);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
-	*/
+
+#endif
 
 	WiFiManager wifiManager;
-	wifiManager.autoConnect("edubot", "edubot");
+	// wifiManager.autoConnect("edubot", "edubotpass");
+	wifiManager.autoConnect();
 
     if (mdns.begin(_MDNS_NAME_, WiFi.localIP())) {
         Serial.println("MDNS responder started");

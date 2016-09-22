@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>BotControl</title>
+		<script>!function(t,e){function n(t){return t&&e.XDomainRequest&&!/MSIE 1/.test(navigator.userAgent)?new XDomainRequest:e.XMLHttpRequest?new XMLHttpRequest:void 0}function o(t,e,n){t[e]=t[e]||n}var r=["responseType","withCredentials","timeout","onprogress"];t.ajax=function(t,a){function s(t,e){return function(){c||(a(void 0===f.status?t:f.status,0===f.status?"Error":f.response||f.responseText||e,f),c=!0)}}var u=t.headers||{},i=t.body,d=t.method||(i?"POST":"GET"),c=!1,f=n(t.cors);f.open(d,t.url,!0);var l=f.onload=s(200);f.onreadystatechange=function(){4===f.readyState&&l()},f.onerror=s(null,"Error"),f.ontimeout=s(null,"Timeout"),f.onabort=s(null,"Abort"),i&&(o(u,"X-Requested-With","XMLHttpRequest"),e.FormData&&i instanceof e.FormData||o(u,"Content-Type","application/x-www-form-urlencoded"));for(var p,m=0,v=r.length;v>m;m++)p=r[m],void 0!==t[p]&&(f[p]=t[p]);for(var p in u)f.setRequestHeader(p,u[p]);return f.send(i),f},e.nanoajax=t}({},function(){return this}());</script>
+		<script>
+			var current_speed = 800;
+
+			function setSpeed(s) {
+				current_speed = parseInt(s);
+			}
+
+			function drive(a, b) {
+				console.log("drive(" + a + ", " + b + ")");
+				nanoajax.ajax(
+					{url:'/drive?a=' + a + "&b=" + b}, 
+					function (code, responseText) { console.log("code: " + code + ", text: " + responseText); })
+			}
+		</script>
+		<style>
+			body	 { background-color: black; overflow: hidden; font-family: sans-serif; }
+			select   { background-color: green; font-size: 14pt; }
+			div.hdr  { height: 20vh; text-align: center; }
+			div.ctrl { height: 70vh; }
+			div.fdr  { height: 10vh; text-align: center; color: red; }
+			h1		 { color: red; }
+			table    { width: 90%; min-height: 90%; }
+			td		 { width: 30%; height: 30%; }
+			td.btn   { background-color: yellow; }
+			td.btn2  { background-color: red; }
+		</style>
+	</head>
+	<body>
+		<div class="hdr">
+			<h1 id="botname"></h1>
+			<select name="speed" size="1" onchange="setSpeed(this.value)">
+				<option value="500">slow</option>
+				<option value="800" selected>normal</option>
+				<option value="1000">fast</option>
+			</select>
+		</div>
+		<div class="ctrl">
+			<table align="center">
+				<tr>
+					<td></td>
+					<td class="btn" onMouseDown="drive(current_speed, current_speed)"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="btn" onMouseDown="drive(-current_speed * 0.8, current_speed * 0.8)"></td>
+					<td class="btn2" onMouseDown="drive(0, 0)"></td>
+					<td class="btn" onMouseDown="drive(current_speed * 0.8, -current_speed * 0.8)" ></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="btn" onMouseDown="drive(-current_speed, -current_speed)"></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div class="fdr">
+			Aimes Geburtstags-Projekt 2016
+		</div>
+		<script>
+			nanoajax.ajax(
+				{url:'/botname'}, 
+				function (code, responseText) { 
+					console.log("code: " + code + ", text: " + responseText); 
+					document.getElementById("botname").innerHTML = responseText;
+				})
+		</script>
+	</body>
+</html>

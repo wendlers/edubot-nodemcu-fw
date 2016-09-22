@@ -3,3 +3,4 @@ remote/python/examples/assets/scratchthumbs.db
 remote/python/examples/js.py
 remote/python/*.pyc
 firmware/arduino/build.nodemcuv2/
+firmware/arduino/generated/

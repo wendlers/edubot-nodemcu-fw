@@ -3,6 +3,8 @@
 #include "range.h"
 #include "Adafruit_NeoPixel.h"
 
+#include "generated/static_index_html.h"
+
 extern Gear gear;
 extern Range range;
 extern Adafruit_NeoPixel pixels; 
@@ -12,6 +14,7 @@ WebServer WebServer::_instance;
 WebServer::WebServer() : ESP8266WebServer()
 {
     on("/", WebServer::handleRoot);
+    on("/botname", WebServer::handleBotname);
     on("/drive", WebServer::handleDrive);
     on("/range", WebServer::handleRange);
     on("/pixels", WebServer::handlePixels);
@@ -22,12 +25,21 @@ void WebServer::handleRoot()
 {
 	// Serial.print("handleRoot\n");
 
+	instance().send_P(200, "text/html", (const char *)static_index_html, static_index_html_len);
+
+#if 0
     instance().send(200, "text/html", 
 		"<html><head><title>EduBot NodeMCU</title><head><body>" \
 		"<h1>EduBot NodeMCU</h2>" \
 		"<p><a href=\"drive\">Drive control</a></p>" \
 		"<p><a href=\"range\">Range finder</a></p>" \
 		"</body></html>");
+#endif
+}
+
+void WebServer::handleBotname() 
+{
+    instance().send(200, "text/plain", "EduBot");
 }
 
 void WebServer::handlePixels()
@@ -64,7 +76,7 @@ void WebServer::handlePixels()
 
 void WebServer::handleDrive()
 {
-	// Serial.print("handleDrive\n");
+	Serial.print("handleDrive\n");
 
 	if(instance().hasArg("a")) {
 		int s = instance().arg("a").toInt();
