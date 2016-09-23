@@ -103,13 +103,8 @@
 			var glow_dir = 1;
 
 			function glowEffect() {
-				
 				glow_intensity += 25 * glow_dir;
-
 				if(glow_intensity >= 255 || glow_intensity < 0) glow_dir *= -1;
-
-				// document.getElementById('b1').style.borderColor="rgb(" + glow_intensity + ", 0, 0)";
-				// document.getElementById('b3').style.borderColor="rgb(" + glow_intensity + ", 0, 0)";
 				document.getElementById('b3').style.borderColor="rgb(0, 0, " + glow_intensity + ")";
 			}
 
