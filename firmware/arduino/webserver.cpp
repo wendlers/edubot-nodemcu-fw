@@ -26,20 +26,11 @@ void WebServer::handleRoot()
 	// Serial.print("handleRoot\n");
 
 	instance().send_P(200, "text/html", (const char *)static_index_html, static_index_html_len);
-
-#if 0
-    instance().send(200, "text/html", 
-		"<html><head><title>EduBot NodeMCU</title><head><body>" \
-		"<h1>EduBot NodeMCU</h2>" \
-		"<p><a href=\"drive\">Drive control</a></p>" \
-		"<p><a href=\"range\">Range finder</a></p>" \
-		"</body></html>");
-#endif
 }
 
 void WebServer::handleBotname() 
 {
-    instance().send(200, "text/plain", "EduBot");
+    instance().send(200, "text/plain", _MDNS_NAME_);
 }
 
 void WebServer::handlePixels()
