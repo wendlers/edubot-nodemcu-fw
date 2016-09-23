@@ -19,32 +19,28 @@ Range range(14, 12);
 // Adafruit_NeoPixel pixels = Adafruit_NeoPixel(8, 10, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel pixels(8, 10, NEO_GRB + NEO_KHZ800);
 
+#define WIFI_MODE_PIN  99
 
 void setup(void) {
 
     Serial.begin(115200);
 
-#if 0
-    WiFi.begin(ssid, password);
-    Serial.println("");
+	pinMode(WIFI_MODE_PIN, INPUT);
 
-    // Wait for connection
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
+	if(digitalRead(WIFI_MODE_PIN) == HIGH) {
+		// use WiFi-Manager for network connection to STA
+		Serial.println("Using WiFi-Manager");
 
-    Serial.println("");
-    Serial.print("Connected to ");
-    Serial.println(ssid);
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
+		WiFiManager wifiManager;
+		wifiManager.autoConnect(_SSID_, _WIFI_PASSWORD_);
+	}
+	else {
+		// create own AP
+		Serial.println("Using own AP");
 
-#endif
-
-	WiFiManager wifiManager;
-	// wifiManager.autoConnect("edubot", "edubotpass");
-	wifiManager.autoConnect();
+		WiFi.mode(WIFI_AP);
+		WiFi.softAP(_SSID_, _WIFI_PASSWORD_);	
+	}
 
     if (mdns.begin(_MDNS_NAME_, WiFi.localIP())) {
         Serial.println("MDNS responder started");
