@@ -16,7 +16,6 @@ MDNSResponder mdns;
 WebServer &server = WebServer::instance();
 Gear gear(5, 0, 4, 2);
 Range range(14, 12);
-// Adafruit_NeoPixel pixels = Adafruit_NeoPixel(8, 10, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel pixels(8, 10, NEO_GRB + NEO_KHZ800);
 
 #define WIFI_MODE_PIN  99		// TODO: define valid pin
