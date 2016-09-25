@@ -6,7 +6,7 @@
 #include "webserver.h"
 #include "gear.h"
 #include "range.h"
-#include "Adafruit_NeoPixel.h"
+// #include "Adafruit_NeoPixel.h"
 
 const char* ssid = _SSID_;
 const char* password = _WIFI_PASSWORD_;
@@ -16,17 +16,20 @@ MDNSResponder mdns;
 WebServer &server = WebServer::instance();
 Gear gear(5, 0, 4, 2);
 Range range(14, 12);
-Adafruit_NeoPixel pixels(8, 10, NEO_GRB + NEO_KHZ800);
+// Adafruit_NeoPixel pixels(8, 10, NEO_GRB + NEO_KHZ800);
 
-#define WIFI_MODE_PIN  99		// TODO: define valid pin
+#define WIFI_MODE_PIN  13
 
 void setup(void) {
 
     Serial.begin(115200);
 
-    pinMode(WIFI_MODE_PIN, INPUT);
+	Serial.println("");
+	Serial.println("** EduBot, sw@kaltpost.de **");
 
-    if(digitalRead(WIFI_MODE_PIN) == HIGH) {
+    pinMode(WIFI_MODE_PIN, INPUT_PULLUP);
+
+    if(digitalRead(WIFI_MODE_PIN) == LOW) {
         // use WiFi-Manager for network connection to STA
         Serial.println("Using WiFi-Manager");
 
@@ -48,7 +51,7 @@ void setup(void) {
     server.begin();
     Serial.println("HTTP server started");
 
-	pixels.begin();
+//	pixels.begin();
 }
 
 void loop(void) {

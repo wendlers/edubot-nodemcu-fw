@@ -5,7 +5,7 @@
 		<title>BotControl</title>
 		<script>!function(t,e){function n(t){return t&&e.XDomainRequest&&!/MSIE 1/.test(navigator.userAgent)?new XDomainRequest:e.XMLHttpRequest?new XMLHttpRequest:void 0}function o(t,e,n){t[e]=t[e]||n}var r=["responseType","withCredentials","timeout","onprogress"];t.ajax=function(t,a){function s(t,e){return function(){c||(a(void 0===f.status?t:f.status,0===f.status?"Error":f.response||f.responseText||e,f),c=!0)}}var u=t.headers||{},i=t.body,d=t.method||(i?"POST":"GET"),c=!1,f=n(t.cors);f.open(d,t.url,!0);var l=f.onload=s(200);f.onreadystatechange=function(){4===f.readyState&&l()},f.onerror=s(null,"Error"),f.ontimeout=s(null,"Timeout"),f.onabort=s(null,"Abort"),i&&(o(u,"X-Requested-With","XMLHttpRequest"),e.FormData&&i instanceof e.FormData||o(u,"Content-Type","application/x-www-form-urlencoded"));for(var p,m=0,v=r.length;v>m;m++)p=r[m],void 0!==t[p]&&(f[p]=t[p]);for(var p in u)f.setRequestHeader(p,u[p]);return f.send(i),f},e.nanoajax=t}({},function(){return this}());</script>
 		<script>
-			var current_speed = 500;
+			var current_speed = 600;
 
 			function setSpeed(s) {
 				current_speed = parseInt(s);
@@ -49,9 +49,9 @@
 		</script>
 		<style>
 			body	 { background-color: black; overflow: hidden; font-family: sans-serif; }
-			select   { background-color: yellow; font-size: 14pt; border: 5px solid red; padding: 8px; width: 80%; text-align-last:center;}
-			div.hdr  { height: 20vh; text-align: center; }
-			div.ctrl { height: 70vh; }
+			select   { background-color: yellow; font-size: 20pt; border: 5px solid red; padding: 8px; width: 80%; text-align-last:center;}
+			div.hdr  { height: 20vh; text-align: center; margin-top: 3%; }
+			div.ctrl { height: 60vh; }
 			div.fdr  { height: 10vh; text-align: center; color: red; }
 			h1		 { color: red; }
 			table    { width: 90%; min-height: 90%; }
@@ -62,9 +62,8 @@
 	</head>
 	<body>
 		<div class="hdr">
-			<h1 id="botname"></h1>
 			<select id="speed" size="1" onchange="setSpeed(this.value)">
-				<option value="500" selected>L&auml;cherliche Geschwindigkeit</option>
+				<option value="600" selected>L&auml;cherliche Geschwindigkeit</option>
 				<option value="800">Normale Geschwindigkeit</option>
 				<option value="1000">Wahnsinnige Geschwindigkeit</option>
 			</select>
@@ -77,9 +76,9 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td id="b2" class="btn" onMouseDown="drive(-current_speed * 0.8, current_speed * 0.8); buttonEffect(this)"></td>
+					<td id="b2" class="btn" onMouseDown="drive(-current_speed * 0.9, current_speed * 0.9); buttonEffect(this)"></td>
 					<td id="b3" class="btn2" onMouseDown="drive(0, 0); buttonEffect(this)"></td>
-					<td id="b4" class="btn" onMouseDown="drive(current_speed * 0.8, -current_speed * 0.8); buttonEffect(this)" ></td>
+					<td id="b4" class="btn" onMouseDown="drive(current_speed * 0.9, -current_speed * 0.9); buttonEffect(this)" ></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -89,14 +88,17 @@
 			</table>
 		</div>
 		<div class="fdr">
-			Aimes Geburtstags-Projekt 2016
+			<h1 id="botname">MyBot</h1>
+			<p>Aimes Geburtstags-Projekt 2016</p>
 		</div>
 		<script>
 			nanoajax.ajax(
 				{url:'/botname'}, 
 				function (code, responseText) { 
 					console.log("code: " + code + ", text: " + responseText); 
-					document.getElementById("botname").innerHTML = responseText;
+					if(code == 200) {
+						document.getElementById("botname").innerHTML = responseText;
+					}
 				});
 
 			var glow_intensity = 0;

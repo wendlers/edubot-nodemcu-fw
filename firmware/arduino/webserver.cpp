@@ -1,13 +1,13 @@
 #include "webserver.h"
 #include "gear.h"
 #include "range.h"
-#include "Adafruit_NeoPixel.h"
+// #include "Adafruit_NeoPixel.h"
 
 #include "generated/static_index_html.h"
 
 extern Gear gear;
 extern Range range;
-extern Adafruit_NeoPixel pixels; 
+// extern Adafruit_NeoPixel pixels; 
 
 WebServer WebServer::_instance;
 
@@ -37,6 +37,7 @@ void WebServer::handlePixels()
 {
 	// Serial.print("handlePixel\n");
 
+#if 0
 	int p = 0;
 	int r = 0;
 	int g = 0;
@@ -60,6 +61,7 @@ void WebServer::handlePixels()
 
     pixels.setPixelColor(p, pixels.Color(r, g, b)); 
     pixels.show(); 
+#endif
 
     instance().send(200, "text/json", "{}");
 }
@@ -67,7 +69,7 @@ void WebServer::handlePixels()
 
 void WebServer::handleDrive()
 {
-	Serial.print("handleDrive\n");
+	// Serial.print("handleDrive\n");
 
 	if(instance().hasArg("a")) {
 		int s = instance().arg("a").toInt();
